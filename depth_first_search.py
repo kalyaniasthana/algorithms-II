@@ -23,10 +23,31 @@ def dfs(G, start_node):
 
 	return dfs_path
 
+def dfs_recurisve(G, start_node, explored, sequence):
+
+	explored[start_node] = True
+	for v in G[start_node]:
+		if explored[v] == False:
+			explored[v] = True
+			sequence.append(v)
+			dfs_recurisve(G, v, explored, sequence)
+
+def call_dfs_recursive(G, start_node):
+
+	explored = {}
+	for node in G:
+		explored[node] = False
+
+	sequence = [start_node]
+	dfs_recurisve(G, start_node, explored, sequence)
+
+	return sequence
+
 '''
 filename = 'SCC.txt'
 graph = read_graph(filename)
 #start_node = choice(list(graph.keys()))
 start_node = 2
-print(dfs(graph, start_node))
+print(call_dfs_recursive(graph, start_node))
 '''
+
