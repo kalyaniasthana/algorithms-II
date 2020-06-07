@@ -16,13 +16,16 @@ def read_graph(filename):
 	return graph
 
 
-def bfs(G, start_node):
+def bfs_with_shortest_path(G, start_node):
 
 	Q = [start_node] 
 	discovered = {}
+	dist = {}
 	for node in G:
 		discovered[node] = False
+		dist[node] = float('Inf')
 	discovered[start_node] = True
+	dist[start_node] = 0
 	bfs_path = []
 
 	while len(Q) > 0:
@@ -32,13 +35,15 @@ def bfs(G, start_node):
 			#print(len(G[v]))
 			for w in G[v]:
 				if discovered[w] == False:
+					dist[w] = dist[v] + 1
 					discovered[w] = True
 					Q.append(w)
 
-	return bfs_path
-'''
+	return bfs_path, dist
+
+
+
 filename = 'SCC.txt'
 graph = read_graph(filename)
-start_node = choice(list(graph.keys()))
-print(bfs(graph, start_node))
-'''
+start_node = 2
+print(bfs_with_shortest_path(graph, start_node))
