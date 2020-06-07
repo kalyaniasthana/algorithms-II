@@ -18,14 +18,12 @@ def read_graph(filename):
 
 def bfs(G, start_node):
 
-	Q = [] 
+	Q = [start_node] 
 	discovered = {}
 	for node in G:
 		discovered[node] = False
 	discovered[start_node] = True
 	bfs_path = []
-
-	Q.append(start_node)
 
 	while len(Q) > 0:
 		v = Q.pop(0)
@@ -38,8 +36,9 @@ def bfs(G, start_node):
 					Q.append(w)
 
 	return bfs_path
-
+'''
 filename = 'SCC.txt'
 graph = read_graph(filename)
 start_node = choice(list(graph.keys()))
 print(bfs(graph, start_node))
+'''
