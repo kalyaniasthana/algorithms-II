@@ -41,9 +41,22 @@ def bfs_with_shortest_path(G, start_node):
 
 	return bfs_path, dist
 
+def connected_components_undirected(G):
 
+	explored = {}
+	for node in G:
+		explored[node] = False
 
+	for node in G:
+		if explored[node] == False:
+			x, y = bfs_with_shortest_path(G, node)
+			print(x)
+			explored[node] = True
+
+'''
 filename = 'SCC.txt'
 graph = read_graph(filename)
 start_node = 2
-print(bfs_with_shortest_path(graph, start_node))
+#print(bfs_with_shortest_path(graph, start_node))
+print(connected_components_undirected(graph))
+'''
