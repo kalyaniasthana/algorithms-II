@@ -1,8 +1,4 @@
 import sys
-import resource
-#sys.setrecursionlimit(10000000)
-#resource.setrlimit(resource.RLIMIT_STACK, [0x10000000, resource.RLIM_INFINITY])
-#sys.setrecursionlimit(0x100000)
 
 def read_kosaraju_graph(filename, n):
 
@@ -40,39 +36,6 @@ def dfs_second_pass(G, start_node):
 					stack.append(w)
 
 	return dfs_path
-'''
-def dfs_first_pass(G, n):
-
-	global t
-	global explored
-	global f
-
-	explored = [False for x in range(n)]
-	#leader = [0 for x in range(n)]
-	f = [0 for x in range(n)]
-	#s = None
-	t = 0
-
-	for i in range(n-1, -1, -1):
-		print(i)
-		if explored[i] == False:
-			stack = [i]
-
-		print(stack)
-		while len(stack) > 0:
-			v = stack.pop(len(stack) - 1)
-			done = True
-			if len(G[v]) != 0:
-				for w in G[v]:
-					if explored[w] == False:
-						explored[w] = True
-						stack.append(w)
-						done = False
-			if done == True:
-				f[i] = t
-				t += 1
-
-'''
 
 def dfs_recurisve(G, i):
 
@@ -113,7 +76,6 @@ def dfs_loop(G, n):
 			#s = i
 			dfs_recurisve(G, i)
 
-
 def kosaraju_second_pass(G, f, n):
 
 	temp_G = [[] for i in range(n)]
@@ -146,16 +108,46 @@ def kosaraju_second_pass(G, f, n):
 
 	return all_scc
 
-filename = 'small_test_case.txt'
-n = 9
+def dfs_first_pass(Grev, n):
+
+	global explored
+	global t
+	global f
+
+	explored = [False for i in range(n)]
+	t = 0
+	stack = []
+	f = [0 for i in range(n)]
+
+	for i in range(n-1, -1, -1):
+		if not explored[i]:
+			explored[i] = True
+			stack.append(i)
+
+		while stack:
+			done = True
+			v = stack[-1]
+			for w in Grev[v]:
+				if not explored[w]:
+					explored[w] = True
+					stack.append(w)
+					done = False
+					break
+			if done:
+				f[v] = t
+				t += 1
+				stack.pop()
+
+filename = 'SCC.txt'
+n = 875714
 G, G_rev = read_kosaraju_graph(filename, n)
-dfs_loop(G_rev, n)
-#print(f)
-#sys.exit()
+
+dfs_first_pass(G_rev, n)
+
 #print(G)
 del G_rev
 #del leader
 del explored
 #del s
 del t
-print(kosaraju_second_pass(G, f, n))
+print(kosaraju_second_pass(G, f, n)[:5])
